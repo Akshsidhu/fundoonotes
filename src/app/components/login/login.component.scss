@@ -1,0 +1,29 @@
+@import "src/app/scss/styles.scss";
+
+.email-bar{
+  width: 100%;
+}
+
+.forgot-email-button{
+  @include color-picker(cornflowerblue);
+  margin-left:0.20em;
+  cursor: pointer;
+  // pointer-events: all;
+}
+
+.complete-box{
+  margin-top: 5%;
+}
+
+.not-your-computer{
+  margin-top: 15%;
+}
+
+.learn-more{
+  @include color-picker(cornflowerblue);
+  cursor: pointer;
+}
+
+.create-account-next-div{
+  margin-top:15%;
+}
