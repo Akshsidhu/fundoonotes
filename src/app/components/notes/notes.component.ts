@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { DialogComponent} from 'src/app/components/dialog/dialog.component'
 import { CollaboratorComponent } from '../collaborator/collaborator.component';
+import { UserServiceService } from 'src/app/services/user-service.service';
 
 export interface DialogData{
   noteId:string,
@@ -23,23 +24,28 @@ export interface DialogData{
 export class NotesComponent implements OnInit  {
 
   //events = new EventEmitter();
+  service:any
   collaboratorList: Array<any>=[]; 
   noteColor = new FormControl('#FFFFFF');
   notesList: Array<any> = [];
   @Input() search;
 
-  constructor(private noteSvc: NoteService , private dialog : MatDialog) {
+  constructor(private noteSvc: NoteService , private dialog : MatDialog , private usvc : UserServiceService) {
 
     this.noteSvc.events.addListener('note-saved-in-database', () => {
       //Fetch all notes from database
       this.fetchAllNotes();
     })
-    this.noteSvc.events.addListener('basic-service', () => {
+    this.getService();
+    
+    this.usvc.events.addListener('basic-service', () => {
       //Fetch all notes from database
+      this.getService();
       this.fetchAllNotes();
     }) 
-    this.noteSvc.events.addListener('advance-service', () => {
+    this.usvc.events.addListener('advance-service', () => {
       //Fetch all notes from database
+      this.getService();
       this.fetchAllNotes();
     })
 
@@ -89,6 +95,11 @@ export class NotesComponent implements OnInit  {
   }
 
   //Fetch all notes
+  getService(){
+    this.service=localStorage.getItem('service')
+    console.log("apki service ka nam hai :"+this.service)
+  }
+
   fetchAllNotes() {
     let obs = this.noteSvc.fetchAllNotes();
 

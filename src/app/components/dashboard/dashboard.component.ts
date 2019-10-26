@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void { 
   }
   getService(){
-    this.service=sessionStorage.getItem('service');
+    this.service=localStorage.getItem('service');
     console.log(this.service);
   }
 

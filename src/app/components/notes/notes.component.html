@@ -18,9 +18,9 @@
                             </mat-card-content>
                             </div>
     
-                <mat-card-actions>
+                <mat-card-actions *ngIf="service=='advance'" >
     
-                    <div style="color: black" fxLayout="row" fxLayoutAlign="space-around center" ngClass.xs="occupy-full">
+                    <div style="color: black" fxLayout="row" fxLayoutAlign="space-around center"   ngClass.xs="occupy-full">
     
                         <div>
                             <mat-icon  [matMenuTriggerFor]="menu1" matTooltip="Remind Me">
@@ -100,7 +100,7 @@
                 </div>
     
 
-            <mat-card-actions>
+            <mat-card-actions *ngIf="service=='advance'">
 
                 <div style="color: black" fxLayout="row" fxLayoutAlign="space-around center" ngClass.xs="occupy-full">
 
