@@ -1,6 +1,6 @@
 <div fxLayout.gt-md="row wrap" fxLayout.lt-md="column" fxLayoutGap="5px" fxLayoutAlign="space-around center">
   <div *ngFor="let note of archiveNotesList.reverse()" >
-      <mat-card [style.background-color]="getBackgroundColor(note.color)" *ngIf="!note.isDeleted && note.isArchived"
+      <mat-card [style.background-color]="noteColor" *ngIf="!note.isDeleted && note.isArchived"
           ngClass.lt-md="note-smaller-screen" ngClass.gt-md="note-bigger-screen" class="extra-actions">
 
           <mat-card-title>
@@ -30,7 +30,6 @@
                     <mat-icon >
                         color_lens
                     </mat-icon>
-                    <input (change)="changeColor(note)" [formControl]="noteColor" type="color" />
                 </div>
 
                 <div>

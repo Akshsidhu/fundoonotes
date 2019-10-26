@@ -24,7 +24,8 @@ import { DeletedNotesComponent } from './components/deleted-notes/deleted-notes.
 import { ArchivedNotesComponent } from './components/archived-notes/archived-notes.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { CollaboratorComponent } from './components/collaborator/collaborator.component';
-import { ServiceComponent } from './components/service/service.component';
+import { ServicePurchaseComponent } from './components/service-purchase/service-purchase.component';
+import { CartComponent } from './components/cart/cart.component';
 import { SearchFilterPipe } from './search-filter.pipe';
 
 @NgModule({
@@ -40,11 +41,13 @@ import { SearchFilterPipe } from './search-filter.pipe';
     ArchivedNotesComponent,
     DialogComponent,
     CollaboratorComponent,
-    ServiceComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    ServicePurchaseComponent,
+  
+    CartComponent
   ],
   entryComponents:[
-    DialogComponent , CollaboratorComponent
+    DialogComponent,CollaboratorComponent,CartComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,54 @@
+<div>
+    <mat-toolbar style="min-width: 320px">  <div class="green-color">Fundoo Notes</div></mat-toolbar>  </div>
+    
+  <h2 align="center"> Fundoo Notes offered. Choose below service to Register.</h2>
+  <mat-card class="background" (click)="basic()">
+    <mat-card-content >
+      <mat-card-footer align="center" >
+          ADD TO CART
+        </mat-card-footer></mat-card-content>
+  </mat-card>
+  <mat-card class="background1" (click)="advance()">
+    <mat-card-content >
+          <mat-card-footer align="center">
+              ADD TO CART
+            </mat-card-footer></mat-card-content>
+  </mat-card>
+  <div  fxLayout="row" fxLayoutGap="2px" fxLayoutAlign="space-evenly">
+    
+    
+  <mat-card class="card" ngClass.lt-md="note-smaller-screen" ngClass.gt-md="note-bigger-screen" class="extra-actions">
+    <mat-card-title>
+     price: $99 per month
+    </mat-card-title>
+    <mat-card-subtitle>
+     advanced
+     </mat-card-subtitle>
+     <mat-card-content >
+        <div >
+        <ul>
+            <li>$99 per month</li>
+            <li>Ability to add title,description, images,labels,checklist and colors.</li>
+            </ul>
+            </div>
+     </mat-card-content>
+    
+  </mat-card>
+  <mat-card ngClass.lt-md="note-smaller-screen" ngClass.gt-md="note-bigger-screen" class="extra-actions">
+    <mat-card-title>
+     price: $49 per month
+    </mat-card-title>
+    <mat-card-subtitle>
+     basic
+     </mat-card-subtitle>
+     <mat-card-content>
+        <ul>
+            <li>$49 per month</li>
+            <li>Ability to add only title and description.</li>
+            </ul>
+     </mat-card-content>
+    
+  </mat-card>
+  </div>
+  
+  <p align="center" class="signin"> <button (click)=signIn()>Sign in instead</button></p>

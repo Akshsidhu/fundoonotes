@@ -7,13 +7,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { DeletedNotesComponent } from './components/deleted-notes/deleted-notes.component';
 import { NotesComponent } from './components/notes/notes.component';
 import { ArchivedNotesComponent } from './components/archived-notes/archived-notes.component';
-import { ServiceComponent } from './components/service/service.component';
+import { ServicePurchaseComponent } from './components/service-purchase/service-purchase.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  {path:'service' , component: ServiceComponent},
-  {
+{
     path: 'dashboard', component: DashboardComponent,
     children:[
       {path:'deleted' , component:DeletedNotesComponent},
@@ -23,7 +22,8 @@ const routes: Routes = [
     ]
   },
   { path: 'resetpassword/:token', component: ResetPasswordComponent },
-  { path: '**', redirectTo: '/service' }
+  { path: 'purchase', component: ServicePurchaseComponent },
+  { path: '**', redirectTo: '/purchase' }
 ];
 
 @NgModule({

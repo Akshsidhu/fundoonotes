@@ -54,16 +54,6 @@ export class ArchivedNotesComponent implements OnInit {
     this.svc.deleteArchiveNote(data);  
 
   }
-  getBackgroundColor(arg) {
-    return !arg ? '	#FFFFFF' : arg;
-  }
-  changeColor(card) {
-    let data = {
-      noteIdList: [card.id],
-      color: this.noteColor.value
-    };
-    this.svc.changeNoteColor(data);
-  }
 
 
 }

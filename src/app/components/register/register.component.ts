@@ -62,14 +62,16 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  signUp(serviceType): any {
+  signUp(): any {
     if (this.registrationForm.valid) {
       this.http.signUp({
         firstName: this.registrationForm.get('firstNameFormControl').value,
         lastName: this.registrationForm.get('lastNameFormControl').value,
         email: this.registrationForm.get('emailFormControl').value + '@gmail.com',
         password: this.registrationForm.get('passwordGroup').get('passwordFormControl').value,
-        service: serviceType
+        service: this.http.name,
+productId:this.http.productId,
+cartId:this.http.cartId
       });
       this.registrationForm.reset();
     } else {
@@ -100,6 +102,7 @@ export class RegisterComponent implements OnInit {
     }
   }
 }
+
 
 function matchPassword(group: AbstractControl): { [key: string]: any } | null {
   let password = group.get('passwordFormControl');
