@@ -44,15 +44,6 @@
                         </mat-icon>
                         <mat-menu #menu2="matMenu">
                             <app-reminder [note]="note"></app-reminder>
-                            <!-- <mat-form-field>
-                                            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
-                                    </mat-form-field>
-                                  
-                                    <input (click)="$event.stopPropagation()" matInput formControlName="time" placeholder="Choose a time">
-                                                 -->
-
 
                         </mat-menu>
                     </div>
@@ -139,9 +130,18 @@
             </div>
 
             <div>
-                    <mat-card-content *ngFor="let user of note.reminder">
-                <mat-chip>{{user|myDatePipe}}<mat-icon (click)="removeReminder(note)">close</mat-icon></mat-chip>
-            </mat-card-content>
+                <mat-card-content *ngFor="let user of note.reminder">
+                    <mat-chip>
+                        <p [ngClass]="compareDate(note.reminder)?'cross':'unCross'">
+                            {{user|date:'medium'}}
+                        </p>
+                        <!-- <p [ngClass]="compareDate(note.reminder)?'cross':'unCross'">
+                            {{user|date:'shortTime':'+0'}}</p> -->
+                        <mat-icon (click)="removeReminder(note)">close</mat-icon>
+                        <!-- {{compareDate(note.reminder)}} -->
+                    </mat-chip>
+                    <!-- <mat-chip>{{user|date:'shortTime'}}<mat-icon (click)="removeReminder(note)">close</mat-icon></mat-chip> -->
+                </mat-card-content>
             </div>
 
 
@@ -155,14 +155,6 @@
                         </mat-icon>
                         <mat-menu #menu2="matMenu">
                             <app-reminder [note]="note"></app-reminder>
-                            <!-- <mat-form-field>
-                                            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker></mat-datepicker>
-                                    </mat-form-field>
-                                  
-                                    <input (click)="$event.stopPropagation()" matInput formControlName="time" placeholder="Choose a time">
-                                                 -->
 
 
                         </mat-menu>

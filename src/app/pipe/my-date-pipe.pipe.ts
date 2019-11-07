@@ -3,7 +3,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'myDatePipe'
 })
+
 export class MyDatePipePipe implements PipeTransform {
+  hours:any
 
   transform(value: any): any {
     let givenDate = new Date(value);
@@ -40,6 +42,6 @@ function formatTime(date: Date) {
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   let minutess = minutes < 10 ? '0' + minutes : minutes;
-  let strTime = "\n" + hours + ':' + minutess + ' ' + ampm;
+  let strTime = "\n" + (parseInt(this.hours)-5).toString() + ':' + minutess + ' ' + ampm;
   return strTime;
 }

@@ -6,6 +6,7 @@ import { DialogComponent} from 'src/app/components/dialog/dialog.component'
 import { CollaboratorComponent } from '../collaborator/collaborator.component';
 import { UserServiceService } from 'src/app/services/user-service.service';
 import { ReminderComponent } from '../reminder/reminder.component';
+import { Router } from '@angular/router';
 
 export interface DialogData{
   noteId:string,
@@ -33,7 +34,7 @@ export class NotesComponent implements OnInit  {
   notesView: Boolean = true;
   @Input() search;
   labelArray: any[];
-  constructor(private noteSvc: NoteService , private dialog : MatDialog , private usvc : UserServiceService) {
+  constructor(private noteSvc: NoteService , private dialog : MatDialog , private usvc : UserServiceService,private router : Router) {
 
 
     this.noteSvc.events.addListener('note-saved-in-database', () => {
@@ -244,15 +245,39 @@ addCollab(note){
       this.usvc.removeLabel(note,id)
 
     }
-    removeReminder(note){
-       var data={
-        noteIdList:[note.id]
+    removeReminder(note) {
+      var data = {
+        noteIdList: [note.id]
       }
       this.usvc.removeReminder(data)
-
+  
     }
+    compareDate(date) {
+      let today = new Date();
+      let givenDate = new Date(date);
+      //console.log(givenDate)
+  
+      let dateWithNoTimeZone = new Date(
+        givenDate.getUTCFullYear(),
+        givenDate.getUTCMonth(),
+        givenDate.getUTCDate(),
+        givenDate.getUTCHours(),
+        givenDate.getUTCMinutes(),
+        givenDate.getUTCSeconds(),
+      )
+      //console.log(dateWithNoTimeZone)
+      return (today >= dateWithNoTimeZone)
+    }
+    question(){
+      this.router.navigateByUrl('question')
+    }
+  
 
 }
+
+
+    
+
 
 
     

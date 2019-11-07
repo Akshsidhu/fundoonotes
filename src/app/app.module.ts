@@ -34,6 +34,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ReminderComponent } from './components/reminder/reminder.component';
 import { MyDatePipePipe } from './pipe/my-date-pipe.pipe';
 import { ShowReminderComponent } from './components/show-reminder/show-reminder.component';
+import { QuestionAnswerComponent } from './components/question-answer/question-answer.component';
 
 
 
@@ -64,6 +65,8 @@ import { ShowReminderComponent } from './components/show-reminder/show-reminder.
     MyDatePipePipe,
   
     ShowReminderComponent,
+  
+    QuestionAnswerComponent,
   
     
 

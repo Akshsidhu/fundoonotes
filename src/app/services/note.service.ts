@@ -197,7 +197,6 @@ export class NoteService {
   fetchAllLabels() {
     return this.http.get("noteLabels/getNoteLabelList", this.token);
   }
-
   addReminder(data) {
     let obs = this.http.postWithToken("notes/addUpdateReminderNotes", data, this.token);
     obs.subscribe(response => {

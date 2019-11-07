@@ -9,7 +9,7 @@ import { NoteService } from 'src/app/services/note.service';
   styleUrls: ['./reminder.component.scss']
 })
 export class ReminderComponent implements OnInit {
-events = new EventEmitter()
+  events = new EventEmitter()
 
   @Input("note") note;
 
@@ -17,7 +17,7 @@ events = new EventEmitter()
   time = new FormControl('', [])
   date = new FormControl('', [])
 
-  constructor(private noteSvvc: NoteService) {
+  constructor(private noteSvvc: NoteService ) {
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ events = new EventEmitter()
     let amPm = time.split(" ")[1];
     if (hours.length < 2) hours = "0" + hours;
     if (amPm === "PM") {
-      hours = parseInt(hours) + 12;
+      if (parseInt(hours) < 12) hours = parseInt(hours) + 12;
     } else {
       if (parseInt(hours) === 24) hours = "00"
     }
@@ -52,13 +52,9 @@ events = new EventEmitter()
 
   addReminder(reminder) {
     console.log(this.note);
-     this.noteSvvc.addReminder({
+    this.noteSvvc.addReminder({
       noteIdList: [this.note.id],
       reminder: reminder
     })
   }
-    
-
-  
-
 }

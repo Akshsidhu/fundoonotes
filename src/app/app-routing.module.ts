@@ -9,7 +9,8 @@ import { NotesComponent } from './components/notes/notes.component';
 import { ArchivedNotesComponent } from './components/archived-notes/archived-notes.component';
 import { ServicePurchaseComponent } from './components/service-purchase/service-purchase.component';
 import { ShowLabelsComponent } from './components/show-labels/show-labels.component';
-import {ShowReminderComponent} from './components/show-reminder/show-reminder.component'
+import {ShowReminderComponent} from './components/show-reminder/show-reminder.component';
+import {QuestionAnswerComponent} from './components/question-answer/question-answer.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   },
   { path: 'resetpassword/:token', component: ResetPasswordComponent },
   { path: 'purchase', component: ServicePurchaseComponent },
+  {path:'question',component:QuestionAnswerComponent},
   { path: '**', redirectTo: '/purchase' }
 ];
 
