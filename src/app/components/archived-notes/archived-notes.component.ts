@@ -11,6 +11,7 @@ export class ArchivedNotesComponent implements OnInit {
   
   noteColor = new FormControl('#FFFFFF');
   archiveNotesList: Array<any> = [];
+  notesView: Boolean = true;
 
   constructor(private svc : NoteService) {
     this.svc.events.addListener('note-unarchived', () => {
@@ -26,6 +27,10 @@ export class ArchivedNotesComponent implements OnInit {
 
   ngOnInit() {
     this.fetchArchiveNotes();
+    this.svc.viewInfo.subscribe((data) => {
+      // console.log("data", data);
+      this.notesView = data;
+    });
   }
 
   fetchArchiveNotes(){
@@ -54,6 +59,8 @@ export class ArchivedNotesComponent implements OnInit {
     this.svc.deleteArchiveNote(data);  
 
   }
-
+  getBackgroundColor(arg) {
+    return !arg ? '	#FFFFFF' : arg;
+  }
 
 }

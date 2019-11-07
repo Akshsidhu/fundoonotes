@@ -15,17 +15,20 @@ export class NoteService {
   array: Array<string> = [];
   token: String = localStorage.getItem('token');
 
-  search:any
+  search: any
 
   private searchDataSource = new BehaviorSubject(this.search);
   currentDataSearch = this.searchDataSource.asObservable();
+  private viewMode: BehaviorSubject<any> = new BehaviorSubject(true);
+  viewInfo = this.viewMode.asObservable();
 
   events = new EventEmitter();
 
   constructor(private http: HttpServiceService
-   ) { }
+  ) { }
 
   fetchAllNotes(): any {
+    console.log
     return this.http.get('notes/getNotesList', this.token);
   }
   fetchDeletedNotes() {
@@ -158,37 +161,48 @@ export class NoteService {
     this.search = search
     this.searchDataSource.next(search);
   }
- //noteId:any=localStorage.getItem('noteId')
-  searchUserList(user,noteId){
-    
-    let obs = this.http.postWithToken('user/searchUserList',user,this.token)
+  changeView(data) {
+    this.viewMode.next(data);
+  }
+  //noteId:any=localStorage.getItem('noteId')
+  searchUserList(user, noteId) {
+
+    let obs = this.http.postWithToken('user/searchUserList', user, this.token)
     obs.subscribe((response: any) => {
       //console.log(response);
       //console.log(this.noteId)
-      let obs1 = this.http.postWithToken('notes/'+noteId+'/AddcollaboratorsNotes',response.data.details[0],this.token)
-      obs1.subscribe((response:any)=>
-      {
+      let obs1 = this.http.postWithToken('notes/' + noteId + '/AddcollaboratorsNotes', response.data.details[0], this.token)
+      obs1.subscribe((response: any) => {
         this.events.emit('collaborator-added');
-      
+
       })
-    
-    
-  })
-}
-removeCollaborator(user,noteId){
-    
-  let obs = this.http.postWithToken('user/searchUserList',user,this.token)
-  obs.subscribe((response: any) => {
-    //console.log(response.data.details[0].userId);
-    //console.log(this.noteId)
-    let obs1 = this.http.delete('notes/'+noteId+'/removeCollaboratorsNotes/'+response.data.details[0].userId,this.token)
-    obs1.subscribe((response:any)=>
-    {
-     //console.log("ho gaya remove")
-     this.events.emit('collaborator-removed');
+
+
     })
-  
-  
-})
+  }
+  removeCollaborator(user, noteId) {
+
+    let obs = this.http.postWithToken('user/searchUserList', user, this.token)
+    obs.subscribe((response: any) => {
+      //console.log(response.data.details[0].userId);
+      //console.log(this.noteId)
+      let obs1 = this.http.delete('notes/' + noteId + '/removeCollaboratorsNotes/' + response.data.details[0].userId, this.token)
+      obs1.subscribe((response: any) => {
+        //console.log("ho gaya remove")
+        this.events.emit('collaborator-removed');
+      })
+    })
+  }
+
+  fetchAllLabels() {
+    return this.http.get("noteLabels/getNoteLabelList", this.token);
+  }
+
+  addReminder(data) {
+    let obs = this.http.postWithToken("notes/addUpdateReminderNotes", data, this.token);
+    obs.subscribe(response => {
+      console.log("reminder added");
+      this.events.emit('reminder-added')
+  })
 }
 }

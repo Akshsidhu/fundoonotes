@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { NoteService } from 'src/app/services/note.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { DialogComponent} from 'src/app/components/dialog/dialog.component'
 import { CollaboratorComponent } from '../collaborator/collaborator.component';
 import { UserServiceService } from 'src/app/services/user-service.service';
+import { ReminderComponent } from '../reminder/reminder.component';
 
 export interface DialogData{
   noteId:string,
@@ -13,7 +14,8 @@ export interface DialogData{
   color:string,
   user:string,
   service:string,
-  collaborator:string[]
+  collaborator:string[],
+  labelId:string
 }
 
 @Component({
@@ -23,19 +25,32 @@ export interface DialogData{
 })
 export class NotesComponent implements OnInit  {
 
-  //events = new EventEmitter();
+  events = new EventEmitter();
   service:any
   collaboratorList: Array<any>=[]; 
   noteColor = new FormControl('#FFFFFF');
   notesList: Array<any> = [];
+  notesView: Boolean = true;
   @Input() search;
-
+  labelArray: any[];
   constructor(private noteSvc: NoteService , private dialog : MatDialog , private usvc : UserServiceService) {
+
 
     this.noteSvc.events.addListener('note-saved-in-database', () => {
       //Fetch all notes from database
       this.fetchAllNotes();
     })
+    this.usvc.events.addListener('reminderDeleted', () => {
+      //Fetch all notes from database
+      this.fetchAllNotes();
+    })
+
+    this.noteSvc.events.addListener('reminder-added', () => {
+      //Fetch all notes from database
+      this.fetchAllNotes();
+    })
+   
+
     this.getService();
     
     this.usvc.events.addListener('basic-service', () => {
@@ -46,6 +61,12 @@ export class NotesComponent implements OnInit  {
     this.usvc.events.addListener('advance-service', () => {
       //Fetch all notes from database
       this.getService();
+      this.fetchAllNotes();
+    })
+    this.usvc.events.addListener('label-display', () => {
+      this.fetchAllNotes();
+    })
+    this.usvc.events.addListener('label-deleted', () => {
       this.fetchAllNotes();
     })
 
@@ -92,6 +113,8 @@ export class NotesComponent implements OnInit  {
         //Fetch all notes from database
         this.fetchAllNotes();
     })
+
+    this.getLabels();
   }
 
   //Fetch all notes
@@ -113,14 +136,21 @@ export class NotesComponent implements OnInit  {
 
   //Fetch all the existing notes from database
   ngOnInit() {
+    
+    
     this.fetchAllNotes();
     this.noteSvc.currentDataSearch.subscribe((search:any) => {
       this.search = search
     })
+    this.noteSvc.viewInfo.subscribe((data) => {
+      // console.log("data", data);
+      this.notesView = data;
+    });
   }
 
   //Delete a Note
   deleteNote(note) {
+    console.log(note)
     let data = {
       noteIdList: [note.id],
       isDeleted: true
@@ -192,10 +222,36 @@ addCollab(note){
       user:note.user.email,
       collaborator:note.collaborators
       }
-    })
+    })}
    
-  
-}
+    getLabels(){
+      let obs = this.usvc.getLabels()
+      obs.subscribe((response:any)=>{
+       console.log(response)
+      if(this.labelArray==null){
+        this.labelArray=[]
+      }
+        this.labelArray=response.data.details;
+        //console.log(this.labelArray)
+      })
+    }
+    
+    addToLabel(note,id){
+    this.usvc.addToLabel(note,id )
+
+    }
+    removeLabel(note,id){
+      this.usvc.removeLabel(note,id)
+
+    }
+    removeReminder(note){
+       var data={
+        noteIdList:[note.id]
+      }
+      this.usvc.removeReminder(data)
+
+    }
+
 }
 
 

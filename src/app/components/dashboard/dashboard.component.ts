@@ -8,6 +8,13 @@ import { NoteService } from 'src/app/services/note.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { getDefaultService } from 'selenium-webdriver/edge';
 import { UserServiceService } from 'src/app/services/user-service.service';
+import { LabelsComponent } from '../labels/labels.component';
+import { MatDialog } from '@angular/material';
+
+export interface DialogData{
+  
+  labelArray:string[]
+  }
 
 @Component({
   selector: 'app-components/dashboard',
@@ -15,16 +22,19 @@ import { UserServiceService } from 'src/app/services/user-service.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  labelArray: any
   events = new EventEmitter();
-  
-  searchString:string;
+  toggleView: Boolean = false;
+  userName: string=localStorage.getItem('fName');
+  userEmail: string=localStorage.getItem('email');
+  searchString: string;
   hideNoteBar: Boolean = false;
   hide: Boolean = false;
   hideLogo: Boolean = false;
   advancedUser: Boolean = true;
-  service:string;
+  service: string;
   searchData = {
-    data:''
+    data: ''
   };
 
   noteColor = new FormControl('#FFFFFF');
@@ -43,23 +53,30 @@ export class DashboardComponent implements OnInit {
       map(result => result.matches)
     );
 
-  constructor(private titleService: Title, private breakpointObserver: BreakpointObserver, private noteSvc: NoteService , private router : Router , private route:ActivatedRoute, private usvc: UserServiceService) {
+
+  constructor(private titleService: Title, private breakpointObserver: BreakpointObserver, private noteSvc: NoteService, private router: Router, private route: ActivatedRoute, private usvc: UserServiceService, private dialog: MatDialog) {
     this.setTitle('Dashboard');
     this.getService();
-    this.usvc.events.addListener('advance-service', ()=>{
+
+    this.usvc.events.addListener('advance-service', () => {
       this.getService()
-         
+
     })
-  
-    this.usvc.events.addListener('basic-service', ()=>{
+    this.usvc.events.addListener('label-added', () => {
+      this.getLabels()
+
+    })
+
+    this.usvc.events.addListener('basic-service', () => {
       this.getService()
-         
+
     })
   }
-  ngOnInit(): void { 
+  ngOnInit(): void {
+    this.fetchAllLabels();
   }
-  getService(){
-    this.service=localStorage.getItem('service');
+  getService() {
+    this.service = localStorage.getItem('service');
     console.log(this.service);
   }
 
@@ -71,12 +88,17 @@ export class DashboardComponent implements OnInit {
     this.titleService.setTitle(newTitle);
   }
 
-  allNotes(){
+  allNotes() {
     this.hideNoteBar = false;
-    this.router.navigate(['allNotes'] , {
-      relativeTo : this.route
+    this.router.navigate(['allNotes'], {
+      relativeTo: this.route
     }
-     )
+    )
+  }
+
+  toggleViewNote() {
+    this.toggleView=!this.toggleView;
+    this.noteSvc.changeView(this.toggleView);
   }
 
   saveNote() {
@@ -90,30 +112,30 @@ export class DashboardComponent implements OnInit {
     this.content.setValue("");
     this.noteColor.setValue("#FFFFFF");
   }
-  
-  fetchDeletedNotes(){
+
+  fetchDeletedNotes() {
     this.hideNoteBar = true;
     //console.log("button chal raha hai")
-    this.router.navigate(['deleted'],{
-       relativeTo: this.route
+    this.router.navigate(['deleted'], {
+      relativeTo: this.route
     });
   }
 
-  fetchArchiveNotes(){
+  fetchArchiveNotes() {
     //console.log(this.searchString)
     this.hideNoteBar = true;
     //console.log("button chal raha hai")
-    this.router.navigate(['archive'],{
-       relativeTo: this.route
+    this.router.navigate(['archive'], {
+      relativeTo: this.route
     });
   }
-  logout(){
+  logout() {
     sessionStorage.clear();
     localStorage.clear();
     this.router.navigateByUrl('login');
   }
   onStatusChanged(finished: Boolean) {
-    if(finished) {
+    if (finished) {
       this.noteSvc.searchData(this.searchData.data);
     }
   }
@@ -123,4 +145,55 @@ export class DashboardComponent implements OnInit {
     this.searchData.data = '';
   }
 
+    
+  getLabels() {
+    let obs = this.usvc.getLabels()
+    obs.subscribe((response: any) => {
+      // console.log(response)
+      if (this.labelArray == null) {
+        this.labelArray = []
+      }
+      this.labelArray = response.data.details;
+      console.log(this.labelArray)
+    })
+  }
+
+  labels() {
+    this.dialog.open(LabelsComponent, {
+      width: "450px",
+      data:{
+        labelArray:this.labelArray
+      }
+    })
+  }
+   
+  showLabels(label) {
+    // localStorage.setItem('label', label)
+    this.hideNoteBar = true;
+    this.router.navigate(['show-labels/' + label], {
+      relativeTo: this.route
+    });
+  }
+
+  fetchAllLabels() {
+    let obs = this.noteSvc.fetchAllLabels();
+    obs.subscribe((response: any) => {
+      this.labelArray = response.data.details;
+    })
+  }
+  reminderNotes() {
+    this.hideNoteBar = true;
+    this.router.navigate(['showReminder'], {
+      relativeTo: this.route
+    });
+  }
+  
+  refresh(){
+    window.location.reload();
+  }
 }
+
+
+
+
+

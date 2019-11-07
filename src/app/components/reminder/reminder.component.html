@@ -1,0 +1,33 @@
+<div (click)="$event.stopPropagation()" style="padding: 1.5em;">
+  <pre>
+    Reminder:
+  </pre>
+  <pre>
+      later today   8:00 PM   
+  </pre>
+  <pre>
+      tomorrow      8:00 AM   
+  </pre>
+  <pre>
+      next week     Mon,8:00 AM   
+  </pre>
+  <div [matMenuTriggerFor]="appMenu" style="display: inline" fxLayout="row" fxLayoutAlign="space-around">
+    <mat-icon>access_time</mat-icon>
+    <ng-container style="margin-left: 10%">pick date and time</ng-container>
+    <mat-menu #appMenu="matMenu">
+      <div style="display: inline;" fxLayout="row" fxLayoutAlign="space-around">
+        <mat-icon>arrow_back</mat-icon>
+        <ng-container>pick date and time</ng-container>
+      </div>
+      <!-- mat-form-field> -->
+      <input matInput [matDatepicker]="picker" [formControl]="date" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <!-- </mat-form-field> -->
+      <input (click)="$event.stopPropagation()" matInput [formControl]="time" placeholder="enter time">
+      <mat-divider></mat-divider>
+      <button mat-raised-button (click)="showTime()">save</button>
+    </mat-menu>
+  </div>
+
+</div>

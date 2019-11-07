@@ -8,6 +8,8 @@ import { DeletedNotesComponent } from './components/deleted-notes/deleted-notes.
 import { NotesComponent } from './components/notes/notes.component';
 import { ArchivedNotesComponent } from './components/archived-notes/archived-notes.component';
 import { ServicePurchaseComponent } from './components/service-purchase/service-purchase.component';
+import { ShowLabelsComponent } from './components/show-labels/show-labels.component';
+import {ShowReminderComponent} from './components/show-reminder/show-reminder.component'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,7 +20,9 @@ const routes: Routes = [
       {path:'deleted' , component:DeletedNotesComponent},
       {path:'allNotes', component:NotesComponent},
       {path:'', component:NotesComponent},
-      {path:'archive', component:ArchivedNotesComponent}
+      {path:'archive', component:ArchivedNotesComponent},
+      {path:'show-labels/:label', component:ShowLabelsComponent},
+      {path:'showReminder', component:ShowReminderComponent}
     ]
   },
   { path: 'resetpassword/:token', component: ResetPasswordComponent },

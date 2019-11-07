@@ -11,7 +11,7 @@ export class DeletedNotesComponent implements OnInit {
   // hideNoteBar: Boolean = false;
   noteColor = new FormControl('#FFFFFF');
   deletedNotesList: Array<any> = [];
-
+  notesView: Boolean = true;
   constructor(private svc: NoteService) {
 
 
@@ -35,6 +35,10 @@ export class DeletedNotesComponent implements OnInit {
 
   ngOnInit() {
     this.fetchDeletedNotes(); 
+    this.svc.viewInfo.subscribe((data) => {
+      // console.log("data", data);
+      this.notesView = data;
+    });
   }
   fetchDeletedNotes() {
     //console.log("from deleted.ts function")
@@ -61,5 +65,8 @@ export class DeletedNotesComponent implements OnInit {
       isDeleted: false
     }
     this.svc.saveRetrivedNote(data);
+  }
+  getBackgroundColor(arg) {
+    return !arg ? '	#FFFFFF' : arg;
   }
 }

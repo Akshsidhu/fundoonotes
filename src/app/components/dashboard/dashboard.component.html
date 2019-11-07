@@ -1,37 +1,43 @@
 <!-- Header -->
 <div>
-  <mat-toolbar style="min-width: 250px">
-    <mat-icon (click)="drawer.toggle()" style="margin-left: 1%" class="material-icons" matTooltip="Main Menu" *ngIf="service=='advance'">menu
+  <mat-toolbar style="min-width: 320px" >
+    <mat-icon (click)="drawer.toggle()"  style="margin-left: 1%"  style="color: rgb(19, 17, 17)" *ngIf="service=='advance'"  matTooltip="Main Menu">menu
     </mat-icon>
 
     <div class="logo" style="margin-left: 4%">
-
+      
       <div class="blue-color">F</div>
-      <div class="red-color">u</div>
-      <div class="orange-color">n</div>
-      <div class="blue-color">d</div>
-      <div class="green-color">o</div>
-      <div class="red-color">o</div>
+      <div class="red-color">U</div>
+      <div class="orange-color">N</div>
+      <div class="blue-color">D</div>
+      <div class="green-color">O</div>
+      <div class="red-color">O</div>
       <div class="blue-color">N</div>
-      <div class="red-color">o</div>
-      <div class="orange-color">t</div>
-      <div class="blue-color">e</div>
-      <div class="green-color">s</div>
+      <div class="red-color">O</div>
+      <div class="orange-color">T</div>
+      <div class="blue-color">E</div>
+      <div class="green-color">S</div>
+      
+     
+      <!-- <img src="./../../../../notes.jpg" width="120px" class="new" alt="logo"> -->
+      
+     
+  
     </div>
 
     <!-- Search bar in header -->
     <div fxHide.xs="true" class="search-box-in-header" fxLayout="row" fxLayoutAlign="start center">
-      <mat-icon style="margin-left:1%;color: grey" class="material-icons">search</mat-icon>
+      <mat-icon style="margin-left:1%;color: rgb(0, 0, 0)" class="material-icons">search</mat-icon>
       <div style="margin-left:5%">
         <mat-form-field appearance="fill legacy" style="width:335%; margin-top: 8%">
           <input matInput placeholder="Search" [(ngModel)]="searchData.data" (keyup)="onStatusChanged($event)">
         </mat-form-field>
       </div>
-      <button mat-button mat-icon-button style="margin-left:55%;color: grey" (click)="clearSearch();onStatusChanged($event);">
-          <i class="material-icons">
-            close
-          </i>
-        </button>
+      <button mat-button mat-icon-button style="margin-left:55%;color: rgb(0, 0, 0)" (click)="clearSearch();onStatusChanged($event);">
+        <i class="material-icons">
+          close
+        </i>
+      </button>
     </div>
 
     <!-- This fills the remaining space of the current row -->
@@ -42,16 +48,17 @@
     <div fxLayout="row" fxLayoutAlign="space-around" style="margin-top: 1%; margin-left:5%">
 
       <div fxHide.gt-xs="true">
-        <mat-icon class="material-icons" style="color: grey">search</mat-icon>
+        <mat-icon class="material-icons" style="color: rgb(2, 2, 2)">search</mat-icon>
       </div>
       <div ngClass.xs=three-icons-in-header-smaller-screen>
-        <mat-icon matTooltip="refresh" class="material-icons" style="color: grey">refresh</mat-icon>
+        <mat-icon matTooltip="refresh" class="material-icons" (click)="refresh()" style="color: rgb(255, 255, 255)">cached</mat-icon>
       </div>
-      <div ngClass.gt-xs=three-icons-in-header-bigger-screen fxHide.xs="true">
-        <mat-icon matTooltip="List View" class="material-icons" style="color: grey">view_agenda</mat-icon>
+      <div ngClass.gt-xs=three-icons-in-header-bigger-screen >
+        <div fxLayoutAlign="center center" *ngIf="toggleView" (click)="toggleViewNote()" fxHide.lt-sm="true" matTooltip="List view"><mat-icon style="color: rgb(255, 254, 254)">list</mat-icon></div>
+        <div fxLayoutAlign="center center" *ngIf="!toggleView" (click)="toggleViewNote()" fxHide.lt-sm="true" matTooltip="Grid view"><mat-icon style="color: rgb(255, 254, 254)">view_comfy</mat-icon></div>
       </div>
       <div ngClass.gt-xs=three-icons-in-header-bigger-screen ngClass.xs=three-icons-in-header-smaller-screen>
-        <mat-icon matTooltip="Settings" class="material-icons" style="color: grey">settings</mat-icon>
+        <mat-icon matTooltip="Settings" class="material-icons" style="color: rgb(255, 254, 254)">settings_application</mat-icon>
       </div>
 
     </div>
@@ -60,11 +67,22 @@
     <span class="example-fill-remaining-space"></span>
 
     <!-- Log Out Icon -->
-    <div fxLayout="row" fxLayoutAlign="space-around" ngClass="log-out-icon">
-      <!-- <mat-icon class="material-icons" style="color: grey">mood_bad</mat-icon> -->
-      <button mat-mini-fab color="black" matTooltip="Log Out" (click)="logout()">
-        <mat-icon>power_settings_new</mat-icon>
-      </button>
+      <div fxLayout="row" fxLayoutAlign="space-around" ngClass="log-out-icon">
+          <button mat-mini-fab color="warn" matTooltip="Log Out" mat-icon-button [matMenuTriggerFor]="profile">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+      <mat-menu #profile="matMenu">
+          <mat-card>
+            <div style="height:30%; width:30%">
+              <div><h1>{{userName}}</h1></div>
+              <div>{{userEmail}}</div>
+            </div>
+          </mat-card>
+          <div mat-menu-item>
+            <button mat-button>Add account</button>
+            <button mat-button (click)="logout()">Logout</button>
+          </div>
+        </mat-menu>
     </div>
   </mat-toolbar>
 </div>
@@ -72,56 +90,63 @@
 <!-- Rest of Page -->
 <div style="display: flex; flex-flow: column">
 
-  <mat-sidenav-container style="min-height: 500px">
+  <mat-sidenav-container style="min-height: 650px">
 
 
     <!-- Side nav bar contents -->
-    <mat-sidenav *ngIf="service=='advance'" #drawer ngClass.gt-xs="sidenav-bigger-screen" ngClass.xs="sidenav-smaller-screen"
+    <mat-sidenav #drawer ngClass.gt-xs="sidenav-bigger-screen" ngClass.xs="sidenav-smaller-screen"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)">
 
-      <mat-nav-list style="margin-left:4%">
+      <mat-nav-list [fxHide]="!advancedUser" style="margin-left:4%">
 
-        <mat-list-item class="sidenav-content">
-          <mat-icon class="material-icons" (click)="allNotes()">book</mat-icon>
-          <h3 style="margin-left:18%">
+        <mat-list-item class="sidenav-content" (click)="allNotes()">
+          <mat-icon class="yes" >grade</mat-icon>
+          <h3 class="yes" style="margin-left:18%">
             Notes
           </h3>
         </mat-list-item>
 
         <mat-list-item class="sidenav-content">
           <i class="material-icons">notifications_none</i>
-          <h3 style="margin-left:18%">
+          <h3 style="margin-left:18%" (click)="reminderNotes()">
             Reminders
           </h3>
         </mat-list-item>
 
         <mat-divider></mat-divider>
 
-        <mat-list-item>
+        <mat-list-item class="yes"> 
           <p>LABELS</p>
         </mat-list-item>
-        <mat-list-item class="sidenav-content">
-          <i class="material-icons">colorize</i>
-          <h3 style="margin-left:18%">
+        <mat-list-item *ngFor="let label of labelArray">
+            <mat-icon class="yes">label_important</mat-icon>
+          <h3 style="margin-left:18%" class="yes"  (click)="showLabels(label.label)">
+            
+           {{label.label}}
+          </h3>
+        </mat-list-item>
+        <mat-list-item class="sidenav-content" (click)="labels()">
+
+          <mat-icon class="yes">label</mat-icon>
+          <h3 class="yes" style="margin-left:18%" >
             Edit labels
           </h3>
         </mat-list-item>
 
         <mat-divider></mat-divider>
 
-
-        <mat-list-item class="sidenav-content" style="margin-top: 4%">
-          <mat-icon class="material-icons" (click) = "fetchArchiveNotes()">archive</mat-icon>
-          <h3 style="margin-left:18%">
+        <mat-list-item class="sidenav-content" style="margin-top: 4%" (click) = "fetchArchiveNotes()">
+          <mat-icon class="yes" class="yes" >archive</mat-icon>
+          <h3 class="yes" style="margin-left:18%">
             Archive
           </h3>
         </mat-list-item>
 
 
-        <mat-list-item class="sidenav-content" >
-          <mat-icon class="material-icons" (click)="fetchDeletedNotes()">delete_outline</mat-icon>
-          <h3 style="margin-left:18%">
+        <mat-list-item class="sidenav-content" (click)="fetchDeletedNotes()">
+          <mat-icon class="yes"  >delete_outline</mat-icon>
+          <h3 class="yes" style="margin-left:18%">
             Bin
           </h3>
         </mat-list-item>
@@ -145,27 +170,27 @@
             FxLayoutAlign="space-between center">
             <mat-card-subtitle style="width:70%; margin-top:-2em">
               <mat-form-field appearance="fill legacy">
-                <input matInput placeholder=" notes...">
+                <input matInput placeholder="Take a note...">
               </mat-form-field>
             </mat-card-subtitle>
-            <mat-card-content [fxHide]="!advancedUser" style="width:30%">
+            <mat-card-content  [fxHide]="!advancedUser" style="width:30%">
               <div fxLayout="row" fxLayoutAlign="space-around center">
-                <!-- <div>
-                  <mat-icon class="material-icons" matTooltip="New List">
-                    check_box
+                <div>
+                  <mat-icon   class="material-icons" matTooltip="New List">
+                    subject
                   </mat-icon>
 
-                </div> -->
-                <!-- <div>
+                </div>
+                <div >
                   <mat-icon class="material-icons" matTooltip="New Note with drawing">
-                    brush
+                    queue
                   </mat-icon>
-                </div> -->
-                <!-- <div>
+                </div>
+                <div>
                   <mat-icon class="material-icons" matTooltip="New Note with image">
                     wallpaper
                   </mat-icon>
-                </div> -->
+                </div>
               </div>
             </mat-card-content>
 
@@ -173,8 +198,8 @@
           </mat-card>
 
           <!-- Maximized -->
-          <mat-card style="border-radius : 10px;" ngClass.xs="mat-card-maximized-small-screen" [fxHide]='!hide' [fxHide]='hideNoteBar'>
-            <mat-card-title fxLayout="row" fxLayoutAlign="space-between">
+          <mat-card  class="jet" style="border-radius : 10px;" ngClass.xs="mat-card-maximized-small-screen" [fxHide]='!hide' [fxHide]='hideNoteBar'>
+            <mat-card-title  fxLayout="row" fxLayoutAlign="space-between">
               <input [formControl]='title' matInput placeholder="Title">
               <mat-icon [fxHide]="!advancedUser" class="material-icons">
                 where_to_vote
@@ -185,53 +210,53 @@
             </mat-card-subtitle>
             <mat-card-actions>
 
-              <div style="color: grey" fxLayout="row" fxLayoutAlign="space-around center" ngClass.xs="occupy-full">
+              <div style="color: rgb(15, 15, 15)" fxLayout="row" fxLayoutAlign="space-around center" ngClass.xs="occupy-full">
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Remind Me">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Remind Me">
                     notifications
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Collaborator">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Collaborator">
                     person_add
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser" class="color-palette">
-                  <mat-icon class="material-icons" matTooltip="Change color">
-                    color_lens
+                <div  class="color-palette">
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Change color">
+                    loyalty
                   </mat-icon>
                   <input [formControl]="noteColor" type="color" />
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Add Image">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Add Image">
                     image
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Archive">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Archive">
                     archive
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="More">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="More">
                     more_vert
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Undo">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Undo">
                     undo
                   </mat-icon>
                 </div>
 
-                <div [fxHide]="!advancedUser">
-                  <mat-icon class="material-icons" matTooltip="Redo">
+                <div >
+                  <mat-icon [fxHide]="!advancedUser" class="material-icons" matTooltip="Redo">
                     redo
                   </mat-icon>
                 </div>
@@ -243,7 +268,7 @@
                 </div>
               </div>
 
-              <div [fxHide]="!advancedUser" align="right" style="color: black" fxHide.gt-xs="true">
+              <div align="right" style="color: rgb(5, 4, 4)" fxHide.gt-xs="true">
                 <button mat-button (click)="hide = !hide">
                   Close
                 </button>

@@ -5,7 +5,9 @@ import { MatDialog } from '@angular/material';
 import { CartComponent } from '../cart/cart.component';
 import { UserServiceService } from 'src/app/services/user-service.service';
 export interface id {
-  id: string
+  id: string,
+  type:string,
+  price:string
 }
 @Component({
   selector: 'app-service-purchase',
@@ -27,7 +29,9 @@ export class ServicePurchaseComponent implements OnInit {
       this.dialog.open(CartComponent, {
         width: "450px",
         data: {
-          id: response.data.data[1].id
+          id: response.data.data[1].id,
+          type:"basic",
+          price:"$49/month"
 
         }
 
@@ -41,9 +45,10 @@ export class ServicePurchaseComponent implements OnInit {
     obs.subscribe((response: any) => {
       this.dialog.open(CartComponent, {
         width: "450px",
-        height:"450px",
         data: {
-          id: response.data.data[0].id
+          id: response.data.data[0].id,
+          type:"advance",
+          price:"$99/month"
 
         }
 

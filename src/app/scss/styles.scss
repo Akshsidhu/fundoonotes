@@ -23,16 +23,16 @@ body {
 }
 
 .blue-color {
-  @include color-picker(rgb(66,133,244));
+  @include color-picker(rgb(106, 64, 139));
 }
 .red-color {
-  @include color-picker(rgb(219,68,55));
+  @include color-picker(rgb(106, 64, 139));
 }
 .orange-color {
-  @include color-picker(rgb(244,160,0));
+  @include color-picker(rgb(106, 64, 139));
 }
 .green-color {
-  @include color-picker(rgb(15,157,88));
+  @include color-picker(rgb(106, 64, 139));
 }
 
 .next-button{
