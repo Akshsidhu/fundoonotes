@@ -268,11 +268,12 @@ addCollab(note){
       //console.log(dateWithNoTimeZone)
       return (today >= dateWithNoTimeZone)
     }
-    question(){
-      this.router.navigateByUrl('question')
+    
+    question(note) {
+      console.log(note)
+      //this.hideNoteBar = true;
+      this.noteSvc.question(note)
     }
-  
-
 }
 
 

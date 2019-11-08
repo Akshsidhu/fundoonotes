@@ -23,12 +23,12 @@ const routes: Routes = [
       {path:'', component:NotesComponent},
       {path:'archive', component:ArchivedNotesComponent},
       {path:'show-labels/:label', component:ShowLabelsComponent},
+      {path:'question/:noteId', component:QuestionAnswerComponent},
       {path:'showReminder', component:ShowReminderComponent}
     ]
   },
   { path: 'resetpassword/:token', component: ResetPasswordComponent },
   { path: 'purchase', component: ServicePurchaseComponent },
-  {path:'question',component:QuestionAnswerComponent},
   { path: '**', redirectTo: '/purchase' }
 ];
 

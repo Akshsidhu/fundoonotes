@@ -5,6 +5,7 @@ import { DialogComponent } from '../components/dialog/dialog.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CollaboratorComponent } from '../components/collaborator/collaborator.component';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -24,7 +25,7 @@ export class NoteService {
 
   events = new EventEmitter();
 
-  constructor(private http: HttpServiceService
+  constructor(private http: HttpServiceService,private router: Router
   ) { }
 
   fetchAllNotes(): any {
@@ -202,6 +203,21 @@ export class NoteService {
     obs.subscribe(response => {
       console.log("reminder added");
       this.events.emit('reminder-added')
-  })
-}
+    })
+  }
+  showQuestion(data) {
+    let obs = this.http.postWithToken('/questionAndAnswerNotes/addQuestionAndAnswer', data, this.token)
+    obs.subscribe((response: any) => {
+      console.log("puch lia question")
+      this.events.emit('question-asked')
+    })
+  }
+  getQuestion(data) {
+    let obs1 = this.http.get('/notes/getNotesDetail/' + data, this.token)
+    return obs1
+  }
+  question(note) {
+    this.router.navigate(['dashboard/question', note.id])
+    this.events.emit('hide-bar')
+  }
 }

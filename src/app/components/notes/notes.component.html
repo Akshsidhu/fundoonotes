@@ -33,7 +33,11 @@
                 <mat-chip>{{user|myDatePipe}}<mat-icon (click)="removeReminder(note)">close</mat-icon></mat-chip>
             </mat-card-content>
             </div>
-
+            <div *ngIf="note.questionAndAnswerNotes.length>0">
+                <hr>
+                questions:
+                <mat-chip [innerHTML]="note.questionAndAnswerNotes[0].message"></mat-chip>
+                </div>
 
             <mat-card-actions *ngIf="service=='advance'">
 
@@ -80,6 +84,7 @@
                         <mat-menu #menu="matMenu">
                             <button (click)="deleteNote(note)" mat-menu-item>Delete Note</button>
                             <button (click)="pinNote(note)" mat-menu-item>Pin Note</button>
+                            <button (click)="question(note)" mat-menu-item>AskQuestion</button>
                             <button [matMenuTriggerFor]="menu1" (click)="getLabels()" mat-menu-item>add label</button>
                             <mat-menu #menu1="matMenu">
                                 <mat-list-item *ngFor="let user of labelArray" (click)="addToLabel(note,user.id)">
@@ -133,7 +138,7 @@
                 <mat-card-content *ngFor="let user of note.reminder">
                     <mat-chip>
                         <p [ngClass]="compareDate(note.reminder)?'cross':'unCross'">
-                            {{user|date:'medium'}}
+                            {{user|date:'medium':'+0'}}
                         </p>
                         <!-- <p [ngClass]="compareDate(note.reminder)?'cross':'unCross'">
                             {{user|date:'shortTime':'+0'}}</p> -->
@@ -143,7 +148,11 @@
                     <!-- <mat-chip>{{user|date:'shortTime'}}<mat-icon (click)="removeReminder(note)">close</mat-icon></mat-chip> -->
                 </mat-card-content>
             </div>
-
+            <div *ngIf="note.questionAndAnswerNotes.length>0">
+                <hr>
+                questions:
+                <mat-chip [innerHTML]="note.questionAndAnswerNotes[0].message"></mat-chip>
+                </div>
 
             <mat-card-actions *ngIf="service=='advance'">
 
@@ -192,6 +201,7 @@
                         <mat-menu #menu="matMenu">
                             <button (click)="deleteNote(note)" mat-menu-item>Delete Note</button>
                             <button (click)="pinNote(note)" mat-menu-item>Pin Note</button>
+                            <button (click)="question(note)" mat-menu-item>AskQuestion</button>
                             <button [matMenuTriggerFor]="menu1" (click)="getLabels()" mat-menu-item>add label</button>
                             <mat-menu #menu1="matMenu">
                                 <mat-list-item *ngFor="let user of labelArray" (click)="addToLabel(note,user.id)">
